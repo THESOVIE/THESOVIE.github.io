@@ -199,12 +199,51 @@
         </button>
       </div>
 
+      <!-- Modo Administrador -->
+      <div id="adminPanel" style="display:none; margin:20px 0; padding:15px; background:#2a2a2a; border-radius:10px;">
+        <p style="color:#ffcc00; margin-bottom:10px;">
+          <i class="fas fa-user-shield"></i> Modo Administrador
+        </p>
+        <input type="password" id="adminCode" placeholder="Código de administrador" 
+               style="padding:8px; width:200px; margin-right:10px; border-radius:4px; border:1px solid #444;">
+        <button onclick="activarModoAdmin()" 
+                style="padding:8px 15px; background:#ff3366; color:white; border:none; border-radius:4px; cursor:pointer;">
+          Activar
+        </button>
+      </div>
+
       <div class="download-buttons" id="downloadButtons"></div>
+      <div id="adminDownloadButtons" style="display:none; margin-top:20px;"></div>
 
       <!-- Comentarios -->
       <div class="comments-section">
-        <h3><i class="fas fa-comments"></i> Comentarios (<span id="commentCount">0</span>)</h3>
-        <p>Los comentarios en tiempo real estarán disponibles próximamente.</p>
+        <h3>
+          <i class="fas fa-comments"></i> 
+          Comentarios (<span id="commentCount">0</span>)
+        </h3>
+        
+        <!-- Formulario para nuevo comentario -->
+        <div style="margin: 20px 0; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <input type="text" id="commentName" placeholder="Tu nombre" 
+                   style="flex: 1; min-width: 150px; padding: 10px; border-radius: 6px; border: 1px solid #333; background: #222; color: white;">
+            <input type="email" id="commentEmail" placeholder="Tu correo (opcional)" 
+                   style="flex: 1; min-width: 150px; padding: 10px; border-radius: 6px; border: 1px solid #333; background: #222; color: white;">
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <input type="text" id="commentInput" placeholder="Escribe tu comentario..." 
+                   style="flex: 1; min-width: 200px; padding: 10px; border-radius: 6px; border: 1px solid #333; background: #222; color: white;">
+            <button onclick="publicarComentario()" 
+                    style="padding: 10px 20px; background: var(--accent); color: white; border: none; border-radius: 6px; cursor: pointer;">
+              Publicar
+            </button>
+          </div>
+        </div>
+
+        <!-- Lista de comentarios -->
+        <div id="commentList" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+          <!-- Los comentarios se cargarán aquí -->
+        </div>
       </div>
     </div>
   </main>
@@ -212,7 +251,7 @@
   <script type="module">
     // Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, updateDoc, getDoc, increment, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, collection, query, where, getDocs, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     // 🔴 REEMPLAZA ESTO POR TU CONFIGURACIÓN REAL DE FIREBASE
     const firebaseConfig = {
@@ -235,10 +274,139 @@
       throw new Error("ID no encontrado");
     }
 
+    // Código secreto de administrador
+    const ADMIN_CODE = "synekeos";
+
+    // Activar modo administrador
+    window.activarModoAdmin = function() {
+      const input = document.getElementById('adminCode');
+      if (input.value === ADMIN_CODE) {
+        document.getElementById('adminPanel').style.display = 'none';
+        document.getElementById('adminDownloadButtons').style.display = 'block';
+        
+        fetch('juegos.json')
+          .then(res => res.json())
+          .then(juegos => {
+            const game = juegos.find(j => j.id == gameId);
+            if (game) {
+              const btns = document.getElementById('adminDownloadButtons');
+              btns.innerHTML = `
+                <h3 style="color:#ffcc00; margin-bottom:15px;">🔗 Enlaces de Administrador</h3>
+                <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                  <a href="${game.links.directos.pc}" target="_blank" 
+                     style="flex:1; min-width:200px; padding:10px; text-align:center; border-radius:6px; 
+                            background:linear-gradient(135deg, #4d79ff, #3a68e0); color:white; text-decoration:none;">
+                    🖥️ PC (DIRECTO)
+                  </a>
+                  <a href="${game.links.acortados.pc}" target="_blank" 
+                     style="flex:1; min-width:200px; padding:10px; text-align:center; border-radius:6px; 
+                            background:linear-gradient(135deg, #ff9800, #e67e00); color:white; text-decoration:none;">
+                    🖥️ PC (ACORTADO)
+                  </a>
+                  <a href="${game.links.directos.android}" target="_blank" 
+                     style="flex:1; min-width:200px; padding:10px; text-align:center; border-radius:6px; 
+                            background:linear-gradient(135deg, #4caf50, #3d8b40); color:white; text-decoration:none;">
+                    📱 Android (DIRECTO)
+                  </a>
+                  <a href="${game.links.acortados.android}" target="_blank" 
+                     style="flex:1; min-width:200px; padding:10px; text-align:center; border-radius:6px; 
+                            background:linear-gradient(135deg, #9c27b0, #6a1b9a); color:white; text-decoration:none;">
+                    📱 Android (ACORTADO)
+                  </a>
+                </div>
+              `;
+            }
+          });
+      } else {
+        alert("❌ Código incorrecto");
+      }
+    };
+
+    // Publicar un nuevo comentario
+    window.publicarComentario = async () => {
+      const nameInput = document.getElementById('commentName');
+      const emailInput = document.getElementById('commentEmail');
+      const commentInput = document.getElementById('commentInput');
+      
+      const nombre = nameInput.value.trim();
+      const correo = emailInput.value.trim();
+      const texto = commentInput.value.trim();
+      
+      if (!nombre) {
+        alert("Por favor ingresa tu nombre.");
+        return;
+      }
+      if (!texto) {
+        alert("Por favor escribe un comentario.");
+        return;
+      }
+
+      try {
+        const commentRef = doc(collection(db, "comentarios"));
+        await setDoc(commentRef, {
+          gameId: gameId,
+          texto: texto,
+          fecha: new Date().toISOString(),
+          autor: nombre,
+          email: correo || null
+        });
+
+        nameInput.value = "";
+        emailInput.value = "";
+        commentInput.value = "";
+        cargarComentarios();
+      } catch (error) {
+        console.error("Error al publicar:", error);
+        alert("No se pudo publicar el comentario.");
+      }
+    };
+
+    // Cargar y mostrar comentarios
+    async function cargarComentarios() {
+      try {
+        const q = query(collection(db, "comentarios"), where("gameId", "==", gameId));
+        const querySnapshot = await getDocs(q);
+        
+        const comments = [];
+        querySnapshot.forEach((doc) => {
+          comments.push({ id: doc.id, ...doc.data() });
+        });
+
+        comments.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+        document.getElementById('commentCount').textContent = comments.length;
+        
+        const list = document.getElementById('commentList');
+        if (comments.length === 0) {
+          list.innerHTML = '<p style="color:#777;">Sé el primero en comentar.</p>';
+          return;
+        }
+
+        list.innerHTML = comments.map(c => {
+          const fecha = new Date(c.fecha).toLocaleDateString('es-ES', {
+            day: '2-digit',
+            month: 'short',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          return `
+            <div style="background: #1e1e1e; padding: 15px; border-radius: 10px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px; color: #aaa; font-size: 0.9em;">
+                <span>${c.autor}</span>
+                <span>${fecha}</span>
+              </div>
+              <div style="color: #ddd; line-height: 1.5;">${c.texto}</div>
+            </div>
+          `;
+        }).join('');
+      } catch (error) {
+        console.error("Error al cargar comentarios:", error);
+      }
+    }
+
     // Cargar stats de Firebase
     async function cargarStats() {
       const docRef = doc(db, "juegos", gameId);
-      const docSnap = await getDoc(docRef);
+      const docSnap = await getDocs(docRef);
       let stats = { vistas: 0, likes: 0, comentarios: 0 };
 
       if (docSnap.exists()) {
@@ -261,7 +429,6 @@
           <div>Comentarios</div>
         </div>
       `;
-      document.getElementById('commentCount').textContent = stats.comentarios;
     }
 
     // Incrementar vistas
@@ -297,7 +464,8 @@
           `<span class="category-tag">${cat}</span>`
         ).join('');
         
-        // ✅ USAR ENLACES SEGÚN EL ESTADO VIP
+        document.getElementById('adminPanel').style.display = 'block';
+        
         const isVIP = localStorage.getItem('gameshot_vip_activated') === 'true';
         const links = isVIP ? game.links.directos : game.links.acortados;
         
@@ -312,6 +480,8 @@
             ¿Quieres enlaces directos? <a href="vip.html" style="color:#ff3366;">Hazte VIP</a>
           </p>` : ''}
         `;
+        
+        cargarComentarios();
       } catch (e) {
         document.getElementById('gameDetail').innerHTML = `<h2 style="text-align:center; color:#f44336;">${e.message}</h2>`;
       }
