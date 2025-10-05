@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>¡Gracias! - Games Hot</title>
+  <link rel="icon" href="https://i.ibb.co/S4L9STLS/may-bnner.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-card: #161616;
+      --text-light: #f0f0f0;
+      --accent: #ff3366;
+      --sidebar-width: 250px;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      display: flex;
+    }
+
+    .sidebar {
+      width: var(--sidebar-width);
+      background: #0a0a0a;
+      height: 100vh;
+      padding: 20px 0;
+      position: fixed;
+      left: 0;
+      top: 0;
+      border-right: 1px solid #222;
+    }
+
+    .logo {
+      text-align: center;
+      padding: 0 15px 20px;
+      border-bottom: 1px solid #222;
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      height: 50px;
+      filter: drop-shadow(0 0 6px rgba(255, 51, 102, 0.3));
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: var(--text-light);
+      text-decoration: none;
+      border-radius: 8px;
+    }
+
+    .main-content {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      padding: 30px;
+    }
+
+    .thank-you {
+      max-width: 650px;
+      margin: 60px auto;
+      text-align: center;
+      background: var(--bg-card);
+      padding: 50px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .thank-you h1 {
+      color: var(--accent);
+      margin-bottom: 25px;
+      font-size: 32px;
+    }
+
+    .thank-you p {
+      margin: 15px 0;
+      line-height: 1.7;
+      color: #ddd;
+    }
+
+    .highlight {
+      color: #ffc439;
+      font-weight: bold;
+    }
+
+    .btn-home {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 12px 30px;
+      background: linear-gradient(135deg, var(--accent), #ff6699);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: bold;
+      transition: opacity 0.2s;
+    }
+
+    .btn-home:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 70px;
+      }
+      .logo img {
+        height: 40px;
+      }
+      .sidebar .btn span:not(.fas):not(.fab) {
+        display: none;
+      }
+      .main-content {
+        margin-left: 70px;
+        padding: 15px;
+      }
+      .thank-you {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="https://i.ibb.co/S4L9STLS/may-bnner.png" alt="Games Hot">
+    </div>
+    <nav>
+      <a href="index.html" class="btn"><i class="fas fa-home"></i> <span>INICIO</span></a>
+      <a href="https://t.me/+rrlCyGExPJo3MzEx" target="_blank" class="btn"><i class="fab fa-telegram"></i> <span>Telegram</span></a>
+      <a href="https://discord.gg/pzjjTbkc" target="_blank" class="btn"><i class="fab fa-discord"></i> <span>Discord</span></a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="thank-you">
+      <h1>¡Gracias por tu donación! 💖</h1>
+      <p>
+        Tu apoyo significa mucho para nosotros y nos permite seguir subiendo juegos de calidad.
+      </p>
+      <p>
+        En los próximos minutos, recibirás un <span class="highlight">correo con tu enlace de acceso VIP</span>.
+      </p>
+      <p>
+        ⚠️ Revisa tu bandeja de <strong>correo no deseado</strong>.
+      </p>
+      <p>
+        Con tu acceso VIP, podrás descargar todos los juegos <strong>sin acortadores, sin publicidad y sin esperas</strong>.
+      </p>
+      <a href="index.html" class="btn-home">
+        <i class="fas fa-arrow-left"></i> Volver al inicio
+      </a>
+    </div>
+  </main>
+</body>
+</html>

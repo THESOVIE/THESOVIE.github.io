@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Activando VIP - Games Hot</title>
+  <link rel="icon" href="https://i.ibb.co/S4L9STLS/may-bnner.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-card: #161616;
+      --text-light: #f0f0f0;
+      --accent: #ff3366;
+      --sidebar-width: 250px;
+    }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      display: flex;
+    }
+    .sidebar {
+      width: var(--sidebar-width);
+      background: #0a0a0a;
+      height: 100vh;
+      padding: 20px 0;
+      position: fixed;
+      left: 0;
+      top: 0;
+      border-right: 1px solid #222;
+    }
+    .logo {
+      text-align: center;
+      padding: 0 15px 20px;
+      border-bottom: 1px solid #222;
+      margin-bottom: 20px;
+    }
+    .logo img {
+      height: 50px;
+      filter: drop-shadow(0 0 6px rgba(255, 51, 102, 0.3));
+    }
+    .main-content {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      padding: 30px;
+    }
+    .activate {
+      max-width: 550px;
+      margin: 100px auto;
+      text-align: center;
+      background: var(--bg-card);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .activate h2 {
+      margin-bottom: 20px;
+    }
+    .success {
+      color: #4caf50;
+    }
+    .error {
+      color: #f44336;
+    }
+    .btn-home {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 12px 30px;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+    @media (max-width: 768px) {
+      .sidebar { width: 70px; }
+      .logo img { height: 40px; }
+      .main-content { margin-left: 70px; padding: 15px; }
+      .activate { padding: 25px; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="https://i.ibb.co/S4L9STLS/may-bnner.png" alt="Games Hot">
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="activate" id="status">
+      <h2>Activando acceso VIP...</h2>
+    </div>
+  </main>
+
+  <script type="module">
+    // Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // 🔴 REEMPLAZA ESTO POR TU CONFIGURACIÓN REAL DE FIREBASE
+    const firebaseConfig = {
+      apiKey: "AIzaSyBK1sHJGFyPgB5ct2X4C1atuXE_9g6JDIk",
+      authDomain: "games-hot-stats.firebaseapp.com",
+      projectId: "games-hot-stats",
+      storageBucket: "games-hot-stats.firebasestorage.app",
+      messagingSenderId: "263201825617",
+      appId: "1:263201825617:web:99ad4aa33f5b8a2c2be970"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const email = urlParams.get('email');
+    const token = urlParams.get('token');
+
+    if (email && token && token.length === 12) {
+      // Activar en localStorage
+      localStorage.setItem('gameshot_vip_email', email);
+      localStorage.setItem('gameshot_vip_token', token);
+      localStorage.setItem('gameshot_vip_activated', 'true');
+
+      // Registrar en Firestore
+      const userRef = doc(db, "usuarios_vip", email);
+      await setDoc(userRef, {
+        email: email,
+        token: token,
+        fecha_activacion: new Date().toISOString(),
+        tipo: "donante" // Cambia a "amigo" si lo generas manualmente
+      });
+
+      document.getElementById('status').innerHTML = `
+        <h2 class="success">✅ ¡Acceso VIP activado!</h2>
+        <p>Ahora puedes descargar todos los juegos sin acortadores.</p>
+        <a href="index.html" class="btn-home">
+          <i class="fas fa-home"></i> Ir al inicio
+        </a>
+      `;
+    } else {
+      document.getElementById('status').innerHTML = `
+        <h2 class="error">❌ Enlace inválido</h2>
+        <p>El enlace de acceso no es válido o ha expirado.</p>
+      `;
+    }
+  </script>
+</body>
+</html>

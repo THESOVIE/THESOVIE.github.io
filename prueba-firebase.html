@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Prueba Firebase</title>
+</head>
+<body>
+  <h1>Prueba de Firebase</h1>
+  <p id="status">Conectando...</p>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // ?? PEGA TU CONFIGURACIÓN REAL AQUÍ
+    const firebaseConfig = {
+      apiKey: "AIzaSyBx8K7mN1pQ2rT3vY4zX9cL8nR0sW1aB2c",
+      authDomain: "games-hot-stats.firebaseapp.com",
+      projectId: "games-hot-stats",
+      storageBucket: "games-hot-stats.appspot.com",
+      messagingSenderId: "123456789012",
+      appId: "1:123456789012:web:abc123def456ghi789jkl"
+    };
+
+    try {
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const docRef = doc(db, "pruebas", "test1");
+      await setDoc(docRef, { mensaje: "¡Firebase funciona!", timestamp: Date.now() });
+      document.getElementById("status").textContent = "? ¡Firebase está funcionando!";
+    } catch (error) {
+      document.getElementById("status").textContent = "? Error: " + error.message;
+      console.error(error);
+    }
+  </script>
+</body>
+</html>

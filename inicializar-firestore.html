@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Inicializar Firestore (Sin juegos.json)</title>
+</head>
+<body>
+  <h1>Inicializando Firestore...</h1>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // 🔴 REEMPLAZA CON TU CONFIGURACIÓN REAL
+    const firebaseConfig = {
+      apiKey: "AIzaSyBK1sHJGFyPgB5ct2X4C1atuXE_9g6JDIk",
+      authDomain: "games-hot-stats.firebaseapp.com",
+      projectId: "games-hot-stats",
+      storageBucket: "games-hot-stats.firebasestorage.app",
+      messagingSenderId: "263201825617",
+      appId: "1:263201825617:web:99ad4aa33f5b8a2c2be970"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // 🔸 Define tus juegos aquí directamente
+    const juegos = [
+      { id: 1, nombre: "Love and Evil Things" },
+      { id: 2, nombre: "Juego de Ejemplo 2" }
+      // Agrega más juegos según tu juegos.json
+    ];
+
+    async function init() {
+      for (const j of juegos) {
+        await setDoc(doc(db, "juegos", String(j.id)), {
+          vistas: 0,
+          likes: 0,
+          comentarios: 0
+        });
+        console.log("✅ Creado:", j.id, j.nombre);
+      }
+      alert("¡Base de datos inicializada con éxito!");
+    }
+
+    init();
+  </script>
+</body>
+</html>
