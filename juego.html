@@ -186,10 +186,8 @@
         <div id="gameCategories"></div>
       </div>
 
-      <!-- Stats -->
       <div class="game-stats" id="gameStats"></div>
 
-      <!-- Like/Dislike -->
       <div class="like-buttons">
         <button class="like-btn like" onclick="likeJuego()">
           <i class="fas fa-thumbs-up"></i> Me gusta
@@ -199,7 +197,6 @@
         </button>
       </div>
 
-      <!-- Modo Administrador -->
       <div id="adminPanel" style="display:none; margin:20px 0; padding:15px; background:#2a2a2a; border-radius:10px;">
         <p style="color:#ffcc00; margin-bottom:10px;">
           <i class="fas fa-user-shield"></i> Modo Administrador
@@ -215,14 +212,12 @@
       <div class="download-buttons" id="downloadButtons"></div>
       <div id="adminDownloadButtons" style="display:none; margin-top:20px;"></div>
 
-      <!-- Comentarios -->
       <div class="comments-section">
         <h3>
           <i class="fas fa-comments"></i> 
           Comentarios (<span id="commentCount">0</span>)
         </h3>
         
-        <!-- Formulario para nuevo comentario -->
         <div style="margin: 20px 0; display: flex; flex-direction: column; gap: 10px;">
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <input type="text" id="commentName" placeholder="Tu nombre" 
@@ -240,20 +235,28 @@
           </div>
         </div>
 
-        <!-- Lista de comentarios -->
         <div id="commentList" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
-          <!-- Los comentarios se cargarán aquí -->
         </div>
       </div>
     </div>
   </main>
 
   <script type="module">
-    // Firebase
+    // ✅ Firebase - Importaciones CORRECTAS (incluyendo getDoc)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, setDoc, collection, query, where, getDocs, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      updateDoc,
+      collection,
+      query,
+      where,
+      getDocs,
+      getDoc,
+      increment
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // 🔴 REEMPLAZA ESTO POR TU CONFIGURACIÓN REAL DE FIREBASE
     const firebaseConfig = {
       apiKey: "AIzaSyBK1sHJGFyPgB5ct2X4C1atuXE_9g6JDIk",
       authDomain: "games-hot-stats.firebaseapp.com",
@@ -270,24 +273,21 @@
     const gameId = urlParams.get('id');
 
     if (!gameId) {
-      document.getElementById('gameDetail').innerHTML = '<h2>ID de juego no válido</h2>';
-      throw new Error("ID no encontrado");
+      document.getElementById('gameDetail').innerHTML = '<h2 style="text-align:center; color:#f44336;">ID de juego no válido</h2>';
     }
 
-    // Código secreto de administrador
     const ADMIN_CODE = "synekeos";
 
-    // Activar modo administrador
     window.activarModoAdmin = function() {
       const input = document.getElementById('adminCode');
       if (input.value === ADMIN_CODE) {
         document.getElementById('adminPanel').style.display = 'none';
         document.getElementById('adminDownloadButtons').style.display = 'block';
         
-        fetch('juegos.json')
+        fetch('/juegos.json')
           .then(res => res.json())
           .then(juegos => {
-            const game = juegos.find(j => j.id == gameId);
+            const game = juegos.find(j => String(j.id) === String(gameId));
             if (game) {
               const btns = document.getElementById('adminDownloadButtons');
               btns.innerHTML = `
@@ -322,38 +322,34 @@
       }
     };
 
-    // Publicar un nuevo comentario
+    // ✅ FUNCIÓN CORREGIDA: ahora actualiza el contador de comentarios
     window.publicarComentario = async () => {
-      const nameInput = document.getElementById('commentName');
-      const emailInput = document.getElementById('commentEmail');
-      const commentInput = document.getElementById('commentInput');
-      
-      const nombre = nameInput.value.trim();
-      const correo = emailInput.value.trim();
-      const texto = commentInput.value.trim();
-      
-      if (!nombre) {
-        alert("Por favor ingresa tu nombre.");
-        return;
-      }
-      if (!texto) {
-        alert("Por favor escribe un comentario.");
+      const nombre = document.getElementById('commentName').value.trim();
+      const texto = document.getElementById('commentInput').value.trim();
+      if (!nombre || !texto) {
+        alert("Por favor ingresa tu nombre y un comentario.");
         return;
       }
 
       try {
+        // 1. Guardar el comentario en la colección "comentarios"
         const commentRef = doc(collection(db, "comentarios"));
         await setDoc(commentRef, {
           gameId: gameId,
           texto: texto,
           fecha: new Date().toISOString(),
-          autor: nombre,
-          email: correo || null
+          autor: nombre
         });
 
-        nameInput.value = "";
-        emailInput.value = "";
-        commentInput.value = "";
+        // 2. ✅ INCREMENTAR el contador de comentarios en el documento del juego
+        const gameDocRef = doc(db, "juegos", gameId);
+        await updateDoc(gameDocRef, { 
+          comentarios: increment(1) 
+        });
+
+        // 3. Limpiar formulario y recargar lista
+        document.getElementById('commentName').value = "";
+        document.getElementById('commentInput').value = "";
         cargarComentarios();
       } catch (error) {
         console.error("Error al publicar:", error);
@@ -361,7 +357,6 @@
       }
     };
 
-    // Cargar y mostrar comentarios
     async function cargarComentarios() {
       try {
         const q = query(collection(db, "comentarios"), where("gameId", "==", gameId));
@@ -403,10 +398,9 @@
       }
     }
 
-    // Cargar stats de Firebase
     async function cargarStats() {
       const docRef = doc(db, "juegos", gameId);
-      const docSnap = await getDocs(docRef);
+      const docSnap = await getDoc(docRef);
       let stats = { vistas: 0, likes: 0, comentarios: 0 };
 
       if (docSnap.exists()) {
@@ -431,13 +425,16 @@
       `;
     }
 
-    // Incrementar vistas
     async function incrementarVistas() {
       const docRef = doc(db, "juegos", gameId);
-      await updateDoc(docRef, { vistas: increment(1) });
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        await updateDoc(docRef, { vistas: increment(1) });
+      } else {
+        await setDoc(docRef, { vistas: 1, likes: 0, comentarios: 0 });
+      }
     }
 
-    // Función like
     window.likeJuego = async () => {
       const docRef = doc(db, "juegos", gameId);
       await updateDoc(docRef, { likes: increment(1) });
@@ -445,12 +442,11 @@
       cargarStats();
     };
 
-    // Cargar juego desde juegos.json
     async function cargarJuego() {
       try {
-        const res = await fetch('juegos.json');
+        const res = await fetch('/juegos.json');
         const juegos = await res.json();
-        const game = juegos.find(j => j.id == gameId);
+        const game = juegos.find(j => String(j.id) === String(gameId));
         
         if (!game) throw new Error('Juego no encontrado');
         

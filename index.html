@@ -377,7 +377,6 @@
       <button class="cat-btn" data-category="Virgen">Virgen</button>
     </div>
 
-    <!-- Layout de dos columnas -->
     <div class="main-layout">
       <div class="main-column">
         <div class="games-grid" id="gamesContainer">
@@ -393,21 +392,52 @@
     </div>
   </main>
 
-  <script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBK1sHJGFyPgB5ct2X4C1atuXE_9g6JDIk",
+      authDomain: "games-hot-stats.firebaseapp.com",
+      projectId: "games-hot-stats",
+      storageBucket: "games-hot-stats.firebasestorage.app",
+      messagingSenderId: "263201825617",
+      appId: "1:263201825617:web:99ad4aa33f5b8a2c2be970"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
     const CATEGORIAS_SENSIBLES = ["Furry", "Futa/Trans", "Gay", "Ntr", "Protagonista femenino"];
-    let juegos = [];
+    let juegosConStats = [];
     let categoriaActual = 'todas';
     let modoFiltroActivo = true;
     const JUEGOS_POR_PAGINA = 12;
     let paginaActual = 1;
 
-    async function cargarJuegos() {
+    async function cargarJuegosConStats() {
       try {
-        const res = await fetch('juegos.json');
-        juegos = await res.json();
+        const res = await fetch('/juegos.json');
+        const juegos = await res.json();
+
+        const promesas = juegos.map(async (juego) => {
+          const docRef = doc(db, "juegos", String(juego.id));
+          const docSnap = await getDoc(docRef);
+          const stats = docSnap.exists() 
+            ? docSnap.data() 
+            : { vistas: 0, likes: 0, comentarios: 0 };
+          return { ...juego, stats };
+        });
+
+        juegosConStats = await Promise.all(promesas);
         paginaActual = 1;
         renderJuegos();
       } catch (e) {
+        console.error("Error al cargar juegos:", e);
         document.getElementById('gamesContainer').innerHTML = '<p style="grid-column:1/-1; color:#f44336;">Error al cargar los juegos.</p>';
       }
     }
@@ -417,7 +447,7 @@
     }
 
     function renderJuegos() {
-      const recomendados = juegos.filter(j => 
+      const recomendados = juegosConStats.filter(j => 
         j.categorias.includes("Recomendado") && !debeOcultarse(j)
       );
 
@@ -431,8 +461,9 @@
             <div class="title">${j.nombre}</div>
             ${j.fecha ? `<div class="fecha">${j.fecha}</div>` : ''}
             <div class="game-stats">
-              <div class="stat-item"><i class="fas fa-eye"></i> ${j.stats?.vistas || 0}</div>
-              <div class="stat-item"><i class="fas fa-thumbs-up"></i> ${j.stats?.likes || 0}</div>
+              <div class="stat-item"><i class="fas fa-eye"></i> ${j.stats.vistas || 0}</div>
+              <div class="stat-item"><i class="fas fa-thumbs-up"></i> ${j.stats.likes || 0}</div>
+              <div class="stat-item"><i class="fas fa-comments"></i> ${j.stats.comentarios || 0}</div>
             </div>
           </div>
         `).join('');
@@ -440,7 +471,7 @@
         sidebar.style.display = 'none';
       }
 
-      let filtrados = juegos.filter(j => 
+      let filtrados = juegosConStats.filter(j => 
         !j.categorias.includes("Recomendado") && 
         (categoriaActual === 'todas' || j.categorias.includes(categoriaActual)) &&
         !debeOcultarse(j)
@@ -466,9 +497,9 @@
             <div class="title">${j.nombre}</div>
             ${j.fecha ? `<div class="fecha">${j.fecha}</div>` : ''}
             <div class="game-stats">
-              <div class="stat-item"><i class="fas fa-eye"></i> ${j.stats?.vistas || 0}</div>
-              <div class="stat-item"><i class="fas fa-thumbs-up"></i> ${j.stats?.likes || 0}</div>
-              <div class="stat-item"><i class="fas fa-comments"></i> ${j.stats?.comentarios || 0}</div>
+              <div class="stat-item"><i class="fas fa-eye"></i> ${j.stats.vistas || 0}</div>
+              <div class="stat-item"><i class="fas fa-thumbs-up"></i> ${j.stats.likes || 0}</div>
+              <div class="stat-item"><i class="fas fa-comments"></i> ${j.stats.comentarios || 0}</div>
             </div>
           </div>
         `).join('');
@@ -525,7 +556,7 @@
       icon.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
     });
 
-    cargarJuegos();
+    cargarJuegosConStats();
   </script>
 </body>
 </html>
