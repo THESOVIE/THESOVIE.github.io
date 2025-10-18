@@ -5,294 +5,697 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Games Hot</title>
   <link rel="icon" href="https://i.ibb.co/S4L9STLS/may-bnner.png" type="image/png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --bg-dark: #0d0d0d;
-      --bg-card: #161616;
-      --text-light: #f0f0f0;
-      --accent: #ff3366;
-      --sidebar-width: 250px;
+      --bg-dark: #0a0a0d;
+      --bg-card: #141418;
+      --text-light: #ffffff;
+      --accent: #ff2a5c;
+      --accent-gradient: linear-gradient(135deg, #ff2a5c, #ff6b35);
+      --sidebar-width: 280px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
+    
     body {
-      background-color: var(--bg-dark);
+      background: linear-gradient(135deg, var(--bg-dark) 0%, #111118 100%);
       color: var(--text-light);
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
+    
     .sidebar {
       width: var(--sidebar-width);
-      background: #0a0a0a;
+      background: rgba(10, 10, 13, 0.95);
+      backdrop-filter: blur(10px);
       height: 100vh;
-      padding: 20px 0;
+      padding: 25px 0;
       position: fixed;
       left: 0;
       top: 0;
-      border-right: 1px solid #222;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+      z-index: 100;
     }
+    
     .logo {
       text-align: center;
-      padding: 0 15px 20px;
-      border-bottom: 1px solid #222;
-      margin-bottom: 20px;
+      padding: 0 20px 25px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 25px;
     }
+    
     .logo img {
-      height: 60px;
-      filter: drop-shadow(0 0 6px rgba(255, 51, 102, 0.3));
+      height: 70px;
+      filter: drop-shadow(0 0 12px rgba(255, 42, 92, 0.4));
+      transition: var(--transition);
     }
-    .sidebar ul { list-style: none; padding: 0 10px; }
-    .sidebar li { margin: 10px 0; }
+    
+    .logo img:hover {
+      transform: scale(1.05);
+    }
+    
+    .sidebar ul { 
+      list-style: none; 
+      padding: 0 15px; 
+    }
+    
+    .sidebar li { 
+      margin: 12px 0; 
+    }
+    
     .section-title { 
-      padding: 10px 10px 5px;
-      font-size: 0.8em;
-      color: #888;
+      padding: 12px 15px 8px;
+      font-size: 0.75em;
+      color: #aaa;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      opacity: 0.8;
     }
+    
     .btn {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 15px;
+      gap: 14px;
+      padding: 14px 18px;
       color: var(--text-light);
       text-decoration: none;
-      border-radius: 8px;
+      border-radius: 12px;
+      transition: var(--transition);
+      font-weight: 500;
+      font-size: 0.95em;
+      position: relative;
+      overflow: hidden;
     }
-    .btn:hover { background: #1f1f1f; }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: transparent;
+      transition: var(--transition);
+    }
+    
+    .btn:hover { 
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateX(4px);
+    }
+    
+    .btn:hover::before {
+      background: var(--accent);
+    }
+    
     .btn.vip-btn {
-      background: linear-gradient(90deg, #ff6b35, var(--accent));
+      background: var(--accent-gradient);
       color: white;
-      margin: 15px 15px 25px;
-      font-weight: bold;
+      margin: 20px 18px 30px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 20px rgba(255, 42, 92, 0.3);
+      border: none;
     }
-    .social i { color: var(--accent); }
+    
+    .btn.vip-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(255, 42, 92, 0.4);
+      background: linear-gradient(135deg, #ff1a4d, #ff5a2a);
+    }
+    
+    .social i { 
+      color: var(--accent);
+      font-size: 1.1em;
+    }
+    
     .main-content {
       flex: 1;
       margin-left: var(--sidebar-width);
-      padding: 30px 0;
+      padding: 40px 0;
+      min-height: 100vh;
     }
 
-    /* Barra de búsqueda */
+    /* Barra de búsqueda mejorada */
     .search-bar {
       position: relative;
-      max-width: 650px;
-      margin: 0 auto 25px;
+      max-width: 700px;
+      margin: 0 auto 30px;
     }
+    
     .search-bar input {
       width: 100%;
-      padding: 14px 20px 14px 48px;
-      background: var(--bg-card);
-      border: 1px solid #333;
-      border-radius: 10px;
+      padding: 16px 24px 16px 52px;
+      background: rgba(20, 20, 24, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
       color: white;
       font-size: 16px;
       outline: none;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
     }
+    
+    .search-bar input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255, 42, 92, 0.2);
+    }
+    
     .search-bar i {
       position: absolute;
-      left: 18px;
+      left: 20px;
       top: 50%;
       transform: translateY(-50%);
-      color: #777;
+      color: #888;
       font-size: 18px;
+      transition: var(--transition);
+    }
+    
+    .search-bar input:focus + i {
+      color: var(--accent);
     }
 
-    /* Modo Filtro */
+    /* Modo Filtro mejorado */
     .filter-mode {
       text-align: center;
-      margin: 0 auto 25px;
-      max-width: 650px;
+      margin: 0 auto 30px;
+      max-width: 700px;
     }
+    
     .filter-toggle {
-      background: #2a2a2a;
+      background: rgba(42, 42, 42, 0.8);
+      backdrop-filter: blur(10px);
       color: #ffcc00;
-      border: 1px solid #444;
-      padding: 8px 16px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.9em;
-    }
-    .filter-toggle.active {
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
-    }
-
-    /* Botón de categorías */
-    .categories-toggle {
-      text-align: center;
-      margin: 0 auto 25px;
-      max-width: 650px;
-    }
-    .cat-toggle-btn {
-      background: #2a2a2a;
-      color: #ffcc00;
-      border: 1px solid #444;
+      border: 1px solid rgba(255, 204, 0, 0.3);
       padding: 10px 20px;
       border-radius: 24px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 0.95em;
       font-weight: 600;
+      transition: var(--transition);
       display: flex;
       align-items: center;
       gap: 8px;
-      margin: 0 auto;
     }
-    .cat-toggle-btn:hover {
-      background: #333;
+    
+    .filter-toggle:hover {
+      background: rgba(60, 60, 60, 0.9);
+      transform: translateY(-1px);
+    }
+    
+    .filter-toggle.active {
+      background: var(--accent-gradient);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 4px 15px rgba(255, 42, 92, 0.3);
+    }
+    
+    .filter-toggle.active:hover {
+      box-shadow: 0 6px 20px rgba(255, 42, 92, 0.4);
+    }
+
+    /* Botón de categorías mejorado */
+    .categories-toggle {
+      text-align: center;
+      margin: 0 auto 30px;
+      max-width: 700px;
+    }
+    
+    .cat-toggle-btn {
+      background: rgba(42, 42, 42, 0.8);
+      backdrop-filter: blur(10px);
       color: #ffcc00;
+      border: 1px solid rgba(255, 204, 0, 0.3);
+      padding: 12px 24px;
+      border-radius: 28px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 auto;
+      transition: var(--transition);
+      font-family: 'Orbitron', sans-serif;
     }
+    
+    .cat-toggle-btn:hover {
+      background: rgba(60, 60, 60, 0.9);
+      color: #ffd700;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 204, 0, 0.2);
+    }
+    
     .categories-filter {
       display: none;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
       justify-content: center;
-      margin-bottom: 30px;
-      max-width: 700px;
+      margin-bottom: 35px;
+      max-width: 800px;
       margin-left: auto;
       margin-right: auto;
-      padding: 0 10px;
+      padding: 0 20px;
     }
+    
     .cat-btn {
-      background: #222;
+      background: rgba(34, 34, 34, 0.8);
+      backdrop-filter: blur(10px);
       color: #ccc;
-      border: 1px solid #3a3a3a;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.85em;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 8px 18px;
+      border-radius: 24px;
+      font-size: 0.82em;
       cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
     }
-    .cat-btn:hover { background: #333; color: white; }
-    .cat-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+    
+    .cat-btn:hover { 
+      background: rgba(51, 51, 51, 0.9);
+      color: white;
+      transform: translateY(-1px);
+    }
+    
+    .cat-btn.active { 
+      background: var(--accent-gradient);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(255, 42, 92, 0.3);
+    }
 
-    /* Layout de dos columnas */
+    /* Carrusel de juegos recientes */
+    .recent-games-slider {
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    
+    .recent-games-container {
+      display: flex;
+      animation: slide 20s infinite linear;
+      width: 400%;
+    }
+    
+    @keyframes slide {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-25%); }
+      50% { transform: translateX(-50%); }
+      75% { transform: translateX(-75%); }
+    }
+    
+    .recent-game-slide {
+      min-width: 25%;
+      position: relative;
+      height: 300px;
+    }
+    
+    .recent-game-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .recent-game-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+      padding: 20px;
+      color: white;
+    }
+    
+    .recent-game-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    
+    .recent-game-date {
+      font-size: 14px;
+      color: #ffcc00;
+    }
+
+    /* Sección de juegos finalizados */
+    .finalizados-section {
+      max-width: 1700px;
+      margin: 0 auto 40px;
+      padding: 0 40px;
+    }
+    
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 25px;
+      color: #ffcc00;
+      font-size: 24px;
+      font-weight: 700;
+      font-family: 'Orbitron', sans-serif;
+    }
+    
+    .section-header i {
+      color: var(--accent);
+    }
+
+    /* Layout principal mejorado */
     .main-layout {
       display: flex;
-      gap: 30px;
-      max-width: 1600px;
+      gap: 35px;
+      max-width: 1700px;
       margin: 0 auto;
-      padding: 0 30px;
+      padding: 0 40px;
     }
-    .main-column { flex: 3; }
+    
+    .main-column { 
+      flex: 3; 
+    }
+    
     .sidebar-right {
       flex: 1;
-      background: #121212;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      background: rgba(18, 18, 18, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 25px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       align-self: flex-start;
       position: sticky;
-      top: 30px;
-      max-height: calc(100vh - 60px);
+      top: 40px;
+      max-height: calc(100vh - 80px);
       overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
+    
     .sidebar-title {
       color: #ffcc00;
-      margin-bottom: 15px;
-      font-size: 18px;
+      margin-bottom: 20px;
+      font-size: 20px;
       text-align: center;
+      font-weight: 700;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
     }
 
     /* Cuadrícula principal: 4 columnas */
     .games-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 25px;
-      margin-bottom: 30px;
+      gap: 30px;
+      margin-bottom: 35px;
     }
 
     /* Cuadrícula vertical para recomendados */
     .games-grid-vertical {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 18px;
     }
+    
     .games-grid-vertical .game-card {
       width: 100%;
       max-width: none;
     }
 
-    /* Tarjetas de juego */
+    /* Tarjetas de juego mejoradas */
     .game-card {
       background: var(--bg-card);
-      border-radius: 12px;
+      border-radius: 16px;
       overflow: hidden;
-      transition: transform 0.25s;
+      transition: var(--transition);
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
     }
-    .game-card:hover { transform: translateY(-6px); box-shadow: 0 8px 20px rgba(255,51,102,0.25); }
-    .game-card img { width: 100%; height: 190px; object-fit: cover; }
+    
+    .game-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 1;
+    }
+    
+    .game-card:hover { 
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(255, 42, 92, 0.35);
+      border-color: rgba(255, 42, 92, 0.3);
+    }
+    
+    .game-card:hover::before {
+      opacity: 1;
+    }
+    
+    .game-card img { 
+      width: 100%; 
+      height: 200px; 
+      object-fit: cover;
+      transition: var(--transition);
+    }
+    
+    .game-card:hover img {
+      transform: scale(1.05);
+    }
+    
     .game-card .title {
-      padding: 14px;
+      padding: 16px;
       text-align: center;
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 1.3;
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 1.4;
+      color: white;
+      position: relative;
+      z-index: 2;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+    
     .game-card .fecha {
-      padding: 5px 12px;
-      font-size: 0.75em;
+      padding: 6px 14px;
+      font-size: 0.78em;
       color: #aaa;
       text-align: center;
-      background: rgba(0,0,0,0.3);
-      border-top: 1px solid #333;
+      background: rgba(0, 0, 0, 0.4);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      z-index: 2;
     }
+    
     .game-stats {
       display: flex;
       justify-content: space-around;
-      padding: 8px 0;
-      background: #1e1e1e;
+      padding: 10px 0;
+      background: rgba(30, 30, 30, 0.8);
+      font-size: 0.8em;
+      color: #888;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .stat-item { 
+      display: flex; 
+      align-items: center; 
+      gap: 6px;
+      font-weight: 600;
+    }
+    
+    .stat-item i { 
+      font-size: 14px; 
+      color: var(--accent);
+    }
+    
+    /* Sistema de estrellas */
+    .rating-stars {
+      display: flex;
+      justify-content: center;
+      gap: 2px;
+      margin: 8px 0;
+    }
+    
+    .rating-stars i {
+      color: #ddd;
+      font-size: 12px;
+    }
+    
+    .rating-stars i.filled {
+      color: #ffcc00;
+    }
+    
+    .rating-text {
       font-size: 0.75em;
       color: #888;
+      text-align: center;
+      margin-bottom: 5px;
     }
-    .stat-item { display: flex; align-items: center; gap: 4px; }
-    .stat-item i { font-size: 12px; }
 
-    /* Paginación */
+    /* Paginación mejorada */
     .pagination {
       display: flex;
       justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
+      gap: 12px;
+      margin-top: 25px;
+      flex-wrap: wrap;
     }
+    
     .pagination button {
-      padding: 8px 16px;
-      background: #222;
+      padding: 10px 18px;
+      background: rgba(34, 34, 34, 0.8);
+      backdrop-filter: blur(10px);
       color: #ccc;
-      border: 1px solid #3a3a3a;
-      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
       cursor: pointer;
+      transition: var(--transition);
+      font-weight: 600;
+      min-width: 40px;
     }
-    .pagination button.active,
+    
     .pagination button:hover {
-      background: var(--accent);
+      background: rgba(60, 60, 60, 0.9);
       color: white;
-      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+    
+    .pagination button.active {
+      background: var(--accent-gradient);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(255, 42, 92, 0.3);
     }
 
-    /* Responsive */
+    /* Responsive mejorado */
+    @media (max-width: 1200px) {
+      .games-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .recent-game-slide {
+        min-width: 33.33%;
+      }
+      .recent-games-container {
+        width: 300%;
+      }
+      @keyframes slide {
+        0%, 100% { transform: translateX(0); }
+        33% { transform: translateX(-33.33%); }
+        66% { transform: translateX(-66.66%); }
+      }
+    }
+    
     @media (max-width: 992px) {
       .main-layout {
         flex-direction: column;
-        padding: 0 15px;
+        padding: 0 20px;
       }
       .sidebar-right {
         position: static;
         max-height: none;
+        margin-top: 30px;
       }
       .games-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+      .recent-game-slide {
+        min-width: 50%;
+      }
+      .recent-games-container {
+        width: 200%;
+      }
+      @keyframes slide {
+        0%, 100% { transform: translateX(0); }
+        50% { transform: translateX(-50%); }
+      }
     }
-    @media (max-width: 576px) {
-      .sidebar { width: 70px; }
-      .logo img { height: 45px; }
-      .sidebar .section-title, .sidebar span:not(.fas):not(.fab) { display: none; }
-      .sidebar .btn { justify-content: center; padding: 16px 0; }
-      .main-content { margin-left: 70px; padding: 15px 0; }
-      .games-grid { grid-template-columns: 1fr; }
+    
+    @media (max-width: 768px) {
+      .sidebar { 
+        width: 80px; 
+      }
+      .logo img { 
+        height: 50px; 
+      }
+      .sidebar .section-title, 
+      .sidebar span:not(.fas):not(.fab) { 
+        display: none; 
+      }
+      .sidebar .btn { 
+        justify-content: center; 
+        padding: 18px 0; 
+        gap: 0;
+      }
+      .main-content { 
+        margin-left: 80px; 
+        padding: 20px 0; 
+      }
+      .games-grid { 
+        grid-template-columns: 1fr; 
+      }
+      .main-layout {
+        padding: 0 15px;
+      }
+      .recent-game-slide {
+        min-width: 100%;
+      }
+      .recent-games-container {
+        width: 100%;
+        animation: none;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .sidebar {
+        width: 60px;
+      }
+      .main-content {
+        margin-left: 60px;
+      }
+      .sidebar .btn {
+        padding: 20px 0;
+      }
+      .logo img {
+        height: 40px;
+      }
+    }
+    
+    /* Loading state */
+    .loading {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px;
+      color: #888;
+      font-size: 18px;
+      font-weight: 500;
+    }
+    
+    .loading i {
+      display: block;
+      margin-bottom: 15px;
+      color: var(--accent);
+      font-size: 24px;
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { opacity: 0.6; }
     }
   </style>
 </head>
@@ -377,10 +780,31 @@
       <button class="cat-btn" data-category="Virgen">Virgen</button>
     </div>
 
+    <!-- Carrusel de juegos recientes -->
+    <div class="recent-games-slider">
+      <div class="recent-games-container" id="recentGamesSlider">
+        <!-- Se llenará dinámicamente -->
+      </div>
+    </div>
+
+    <!-- Sección de juegos finalizados -->
+    <div class="finalizados-section">
+      <div class="section-header">
+        <i class="fas fa-check-circle"></i>
+        <span>Juegos Finalizados</span>
+      </div>
+      <div class="games-grid" id="finalizadosGrid">
+        <p style="grid-column:1/-1; text-align:center; color:#777;">Cargando juegos finalizados...</p>
+      </div>
+    </div>
+
     <div class="main-layout">
       <div class="main-column">
         <div class="games-grid" id="gamesContainer">
-          <p style="grid-column:1/-1; text-align:center;">Cargando juegos...</p>
+          <div class="loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            Cargando juegos...
+          </div>
         </div>
         <div class="pagination" id="pagination"></div>
       </div>
@@ -393,6 +817,7 @@
   </main>
 
   <script type="module">
+    // Firebase SDK sin espacios
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import {
       getFirestore,
@@ -419,26 +844,85 @@
     const JUEGOS_POR_PAGINA = 12;
     let paginaActual = 1;
 
+    // Función para renderizar estrellas - CORREGIDA
+    function renderStars(rating, totalVotes) {
+      // Asegurar que los valores sean numéricos
+      rating = parseFloat(rating) || 0;
+      totalVotes = parseInt(totalVotes) || 0;
+      
+      if (totalVotes === 0) {
+        return `
+          <div class="rating-text">Sin valoraciones</div>
+          <div class="rating-stars">
+            ${[...Array(5)].map(() => '<i class="far fa-star"></i>').join('')}
+          </div>
+        `;
+      }
+      
+      const fullStars = Math.floor(rating);
+      const hasHalfStar = (rating - fullStars) >= 0.5;
+      let starsHTML = '';
+      
+      for (let i = 0; i < 5; i++) {
+        if (i < fullStars) {
+          starsHTML += '<i class="fas fa-star filled"></i>';
+        } else if (i === fullStars && hasHalfStar) {
+          starsHTML += '<i class="fas fa-star-half-alt filled"></i>';
+        } else {
+          starsHTML += '<i class="far fa-star"></i>';
+        }
+      }
+      
+      return `
+        <div class="rating-text">${rating.toFixed(1)} (${totalVotes} voto${totalVotes !== 1 ? 's' : ''})</div>
+        <div class="rating-stars">${starsHTML}</div>
+      `;
+    }
+
+    // Función para ordenar por fecha (más reciente primero)
+    function sortByDate(a, b) {
+      const dateA = a.fecha ? new Date(a.fecha.split('/').reverse().join('-')) : new Date(0);
+      const dateB = b.fecha ? new Date(b.fecha.split('/').reverse().join('-')) : new Date(0);
+      return dateB - dateA;
+    }
+
     async function cargarJuegosConStats() {
       try {
         const res = await fetch('/juegos.json');
+        if (!res.ok) throw new Error('No se pudo cargar juegos.json');
         const juegos = await res.json();
 
+        // Si Firebase falla, usar stats por defecto - CORREGIDO
         const promesas = juegos.map(async (juego) => {
-          const docRef = doc(db, "juegos", String(juego.id));
-          const docSnap = await getDoc(docRef);
-          const stats = docSnap.exists() 
-            ? docSnap.data() 
-            : { vistas: 0, likes: 0, comentarios: 0 };
-          return { ...juego, stats };
+          try {
+            const docRef = doc(db, "juegos", String(juego.id));
+            const docSnap = await getDoc(docRef);
+            let stats = { vistas: 0, likes: 0, comentarios: 0, rating: 0, totalVotes: 0 };
+            
+            if (docSnap.exists()) {
+              const data = docSnap.data();
+              // Asegurar valores numéricos
+              stats = {
+                vistas: parseInt(data.vistas) || 0,
+                likes: parseInt(data.likes) || 0,
+                comentarios: parseInt(data.comentarios) || 0,
+                rating: parseFloat(data.rating) || 0,
+                totalVotes: parseInt(data.totalVotes) || 0
+              };
+            }
+            return { ...juego, stats };
+          } catch (error) {
+            // Si Firebase falla, usar stats por defecto
+            return { ...juego, stats: { vistas: 0, likes: 0, comentarios: 0, rating: 0, totalVotes: 0 } };
+          }
         });
 
         juegosConStats = await Promise.all(promesas);
         paginaActual = 1;
-        renderJuegos();
+        renderTodo();
       } catch (e) {
         console.error("Error al cargar juegos:", e);
-        document.getElementById('gamesContainer').innerHTML = '<p style="grid-column:1/-1; color:#f44336;">Error al cargar los juegos.</p>';
+        document.getElementById('gamesContainer').innerHTML = '<p style="grid-column:1/-1; color:#f44336; text-align: center; padding: 40px; font-size: 18px;">Error al cargar los juegos.</p>';
       }
     }
 
@@ -446,7 +930,59 @@
       return modoFiltroActivo && juego.categorias.some(c => CATEGORIAS_SENSIBLES.includes(c));
     }
 
+    function renderRecentGamesSlider() {
+      // Obtener juegos ordenados por fecha (más recientes)
+      const juegosRecientes = [...juegosConStats]
+        .filter(j => !debeOcultarse(j))
+        .sort(sortByDate)
+        .slice(0, 8); // Mostrar los 8 más recientes
+      
+      const slider = document.getElementById('recentGamesSlider');
+      if (juegosRecientes.length === 0) {
+        slider.innerHTML = '';
+        return;
+      }
+      
+      // Duplicar los juegos para que la animación sea continua
+      const allSlides = [...juegosRecientes, ...juegosRecientes];
+      slider.innerHTML = allSlides.map(j => `
+        <div class="recent-game-slide" onclick="window.location='juego.html?id=${j.id}'">
+          <img src="${j.miniatura}" alt="${j.nombre}" onerror="this.src='https://i.ibb.co/S4L9STLS/may-bnner.png'">
+          <div class="recent-game-overlay">
+            <div class="recent-game-title">${j.nombre}</div>
+            <div class="recent-game-date">${j.fecha || 'Sin fecha'}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderFinalizados() {
+      const finalizados = juegosConStats.filter(j => 
+        j.categorias.includes("Finalizado") && !debeOcultarse(j)
+      );
+      
+      const grid = document.getElementById('finalizadosGrid');
+      if (finalizados.length === 0) {
+        grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#777;">No hay juegos finalizados.</p>';
+      } else {
+        grid.innerHTML = finalizados.map(j => `
+          <div class="game-card" onclick="window.location='juego.html?id=${j.id}'">
+            <img src="${j.miniatura}" alt="${j.nombre}" onerror="this.src='https://i.ibb.co/S4L9STLS/may-bnner.png'">
+            <div class="title">${j.nombre}</div>
+            ${j.fecha ? `<div class="fecha">${j.fecha}</div>` : ''}
+            ${renderStars(j.stats.rating, j.stats.totalVotes)}
+            <div class="game-stats">
+              <div class="stat-item"><i class="fas fa-eye"></i> ${j.stats.vistas || 0}</div>
+              <div class="stat-item"><i class="fas fa-thumbs-up"></i> ${j.stats.likes || 0}</div>
+              <div class="stat-item"><i class="fas fa-comments"></i> ${j.stats.comentarios || 0}</div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
     function renderJuegos() {
+      // Mostrar RECOMENDADOS también en la lista principal
       const recomendados = juegosConStats.filter(j => 
         j.categorias.includes("Recomendado") && !debeOcultarse(j)
       );
@@ -457,9 +993,10 @@
         sidebar.style.display = 'block';
         recGrid.innerHTML = recomendados.map(j => `
           <div class="game-card" onclick="window.location='juego.html?id=${j.id}'">
-            <img src="${j.miniatura}" alt="${j.nombre}">
+            <img src="${j.miniatura}" alt="${j.nombre}" onerror="this.src='https://i.ibb.co/S4L9STLS/may-bnner.png'">
             <div class="title">${j.nombre}</div>
             ${j.fecha ? `<div class="fecha">${j.fecha}</div>` : ''}
+            ${renderStars(j.stats.rating, j.stats.totalVotes)}
             <div class="game-stats">
               <div class="stat-item"><i class="fas fa-eye"></i> ${j.stats.vistas || 0}</div>
               <div class="stat-item"><i class="fas fa-thumbs-up"></i> ${j.stats.likes || 0}</div>
@@ -471,11 +1008,12 @@
         sidebar.style.display = 'none';
       }
 
-      let filtrados = juegosConStats.filter(j => 
-        !j.categorias.includes("Recomendado") && 
-        (categoriaActual === 'todas' || j.categorias.includes(categoriaActual)) &&
-        !debeOcultarse(j)
-      );
+      // Filtrar juegos (incluyendo RECOMENDADOS en la lista principal cuando sea "todas")
+      let filtrados = juegosConStats.filter(j => {
+        const matchesCategory = categoriaActual === 'todas' || j.categorias.includes(categoriaActual);
+        const matchesFilter = !debeOcultarse(j);
+        return matchesCategory && matchesFilter;
+      });
 
       const query = document.getElementById('searchInput').value.toLowerCase();
       filtrados = filtrados.filter(j =>
@@ -489,13 +1027,14 @@
 
       const mainGrid = document.getElementById('gamesContainer');
       if (juegosPagina.length === 0) {
-        mainGrid.innerHTML = '<p style="grid-column:1/-1; color:#777;">No se encontraron juegos.</p>';
+        mainGrid.innerHTML = '<p style="grid-column:1/-1; color:#777; text-align: center; padding: 40px; font-size: 18px;">No se encontraron juegos.</p>';
       } else {
         mainGrid.innerHTML = juegosPagina.map(j => `
           <div class="game-card" onclick="window.location='juego.html?id=${j.id}'">
-            <img src="${j.miniatura}" alt="${j.nombre}">
+            <img src="${j.miniatura}" alt="${j.nombre}" onerror="this.src='https://i.ibb.co/S4L9STLS/may-bnner.png'">
             <div class="title">${j.nombre}</div>
             ${j.fecha ? `<div class="fecha">${j.fecha}</div>` : ''}
+            ${renderStars(j.stats.rating, j.stats.totalVotes)}
             <div class="game-stats">
               <div class="stat-item"><i class="fas fa-eye"></i> ${j.stats.vistas || 0}</div>
               <div class="stat-item"><i class="fas fa-thumbs-up"></i> ${j.stats.likes || 0}</div>
@@ -515,6 +1054,12 @@
         }
         paginacion.innerHTML = botones;
       }
+    }
+
+    function renderTodo() {
+      renderRecentGamesSlider();
+      renderFinalizados();
+      renderJuegos();
     }
 
     function cambiarPagina(num) {
@@ -545,7 +1090,7 @@
         '<i class="fas fa-eye-slash"></i> Modo Filtro ACTIVADO' :
         '<i class="fas fa-eye"></i> Modo Filtro DESACTIVADO';
       paginaActual = 1;
-      renderJuegos();
+      renderTodo();
     });
 
     document.getElementById('toggleCategories').addEventListener('click', () => {
@@ -556,6 +1101,7 @@
       icon.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
     });
 
+    // Iniciar carga
     cargarJuegosConStats();
   </script>
 </body>

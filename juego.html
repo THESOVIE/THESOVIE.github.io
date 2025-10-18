@@ -5,118 +5,158 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Juego - Games Hot</title>
   <link rel="icon" href="https://i.ibb.co/S4L9STLS/may-bnner.png" type="image/png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --bg-dark: #0d0d0d;
-      --bg-card: #161616;
-      --text-light: #f0f0f0;
-      --accent: #ff3366;
+      --bg-dark: #0a0a0d;
+      --bg-card: #141418;
+      --text-light: #ffffff;
+      --accent: #ff2a5c;
+      --accent-gradient: linear-gradient(135deg, #ff2a5c, #ff6b35);
       --sidebar-width: 250px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     body {
-      background-color: var(--bg-dark);
+      background: linear-gradient(135deg, var(--bg-dark) 0%, #111118 100%);
       color: var(--text-light);
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       display: flex;
+      min-height: 100vh;
     }
     .sidebar {
       width: var(--sidebar-width);
-      background: #0a0a0a;
+      background: rgba(10, 10, 13, 0.95);
+      backdrop-filter: blur(10px);
       height: 100vh;
-      padding: 20px 0;
+      padding: 25px 0;
       position: fixed;
       left: 0;
       top: 0;
-      border-right: 1px solid #222;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
     }
     .logo {
       text-align: center;
-      padding: 0 15px 20px;
-      border-bottom: 1px solid #222;
-      margin-bottom: 20px;
+      padding: 0 20px 25px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 25px;
     }
     .logo img {
-      height: 50px;
-      filter: drop-shadow(0 0 6px rgba(255, 51, 102, 0.3));
+      height: 60px;
+      filter: drop-shadow(0 0 12px rgba(255, 42, 92, 0.4));
+      transition: var(--transition);
     }
     .btn {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 20px;
+      gap: 14px;
+      padding: 14px 20px;
       color: var(--text-light);
       text-decoration: none;
-      border-radius: 8px;
+      border-radius: 12px;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+    .btn:hover { 
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateX(4px);
     }
     .main-content {
       flex: 1;
       margin-left: var(--sidebar-width);
-      padding: 30px;
+      padding: 40px;
+      min-height: 100vh;
     }
     .game-detail {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
       background: var(--bg-card);
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
     .game-img {
       width: 100%;
-      border-radius: 12px;
-      margin-bottom: 25px;
+      border-radius: 16px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
     .game-detail h1 {
-      font-size: 28px;
-      margin-bottom: 20px;
+      font-size: 32px;
+      margin-bottom: 25px;
+      font-weight: 700;
+      color: white;
     }
     .game-detail p {
-      line-height: 1.7;
+      line-height: 1.8;
       margin-bottom: 25px;
       color: #ddd;
+      font-size: 16px;
     }
     .categories strong {
       display: block;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       color: #aaa;
+      font-weight: 600;
     }
     .category-tag {
       display: inline-block;
-      background: #2a2a2a;
+      background: rgba(42, 42, 42, 0.8);
       color: #ccc;
-      padding: 6px 14px;
-      border-radius: 20px;
-      margin: 0 8px 8px 0;
-      border: 1px solid #3a3a3a;
+      padding: 8px 18px;
+      border-radius: 24px;
+      margin: 0 10px 10px 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
+    }
+    .category-tag:hover {
+      background: rgba(60, 60, 60, 0.9);
+      color: white;
+      transform: translateY(-1px);
     }
     .download-buttons {
-      margin-top: 30px;
+      margin-top: 35px;
       display: flex;
       flex-wrap: wrap;
-      gap: 15px;
+      gap: 20px;
     }
     .btn-download {
       flex: 1;
-      min-width: 200px;
-      padding: 14px;
+      min-width: 220px;
+      padding: 16px;
       text-align: center;
-      border-radius: 10px;
+      border-radius: 14px;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 700;
+      font-size: 16px;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
-    .btn-pc { background: linear-gradient(135deg, #4d79ff, #3a68e0); color: white; }
-    .btn-android { background: linear-gradient(135deg, #4caf50, #3d8b40); color: white; }
-    .btn-download:hover { opacity: 0.9; }
+    .btn-pc { 
+      background: linear-gradient(135deg, #4d79ff, #3a68e0); 
+      color: white; 
+    }
+    .btn-android { 
+      background: linear-gradient(135deg, #4caf50, #3d8b40); 
+      color: white; 
+    }
+    .btn-download:hover { 
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
 
     .game-stats {
       display: flex;
-      gap: 20px;
-      margin: 20px 0;
-      padding: 15px;
-      background: #1e1e1e;
-      border-radius: 10px;
+      gap: 25px;
+      margin: 25px 0;
+      padding: 20px;
+      background: rgba(30, 30, 30, 0.8);
+      border-radius: 14px;
+      backdrop-filter: blur(10px);
     }
     .stat-item {
       display: flex;
@@ -125,43 +165,282 @@
       color: #aaa;
     }
     .stat-value {
-      font-size: 24px;
-      font-weight: bold;
+      font-size: 28px;
+      font-weight: 700;
       color: white;
+      margin-bottom: 5px;
     }
+    
+    /* Sistema de valoración por estrellas */
+    .rating-section {
+      margin: 30px 0;
+      padding: 25px;
+      background: rgba(30, 30, 30, 0.8);
+      border-radius: 14px;
+      text-align: center;
+    }
+    
+    .rating-section h3 {
+      margin-bottom: 20px;
+      color: var(--accent);
+      font-size: 22px;
+    }
+    
+    .current-rating {
+      margin-bottom: 20px;
+    }
+    
+    .current-rating-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #ffcc00;
+      margin: 0 10px;
+    }
+    
+    .current-rating-text {
+      color: #888;
+      font-size: 14px;
+    }
+    
+    .star-rating {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin: 15px 0;
+    }
+    
+    .star-rating i {
+      font-size: 32px;
+      color: #ddd;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .star-rating i:hover,
+    .star-rating i.active {
+      color: #ffcc00;
+      transform: scale(1.1);
+    }
+    
+    .submit-rating-btn {
+      background: var(--accent-gradient);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 15px;
+      box-shadow: 0 4px 15px rgba(255, 42, 92, 0.3);
+    }
+    
+    .submit-rating-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 42, 92, 0.4);
+    }
+    
+    .submit-rating-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .like-buttons {
       display: flex;
-      gap: 15px;
-      margin: 20px 0;
+      gap: 20px;
+      margin: 25px 0;
     }
     .like-btn {
-      padding: 10px 20px;
+      padding: 14px 25px;
       border: none;
-      border-radius: 8px;
-      font-weight: bold;
+      border-radius: 12px;
+      font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
+      font-size: 16px;
+      transition: var(--transition);
+      flex: 1;
+      justify-content: center;
     }
-    .like-btn.like { background: #4caf50; color: white; }
-    .like-btn.dislike { background: #f44336; color: white; }
+    .like-btn.like { 
+      background: linear-gradient(135deg, #4caf50, #3d8b40); 
+      color: white; 
+    }
+    .like-btn.dislike { 
+      background: linear-gradient(135deg, #f44336, #d32f2f); 
+      color: white; 
+    }
+    .like-btn:hover { 
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
 
     .comments-section {
-      margin-top: 40px;
-      border-top: 1px solid #333;
-      padding-top: 30px;
+      margin-top: 50px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 40px;
     }
     .comments-section h3 {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       color: var(--accent);
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
+    
+    /* Formulario de registro/autenticación */
+    .auth-section {
+      background: rgba(30, 30, 30, 0.8);
+      padding: 25px;
+      border-radius: 14px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .auth-section h4 {
+      margin-bottom: 20px;
+      color: #ffcc00;
+      text-align: center;
+    }
+    
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .auth-input {
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(20, 20, 24, 0.8);
+      color: white;
+      font-size: 16px;
+      transition: var(--transition);
+    }
+    
+    .auth-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255, 42, 92, 0.2);
+    }
+    
+    .auth-btn {
+      padding: 14px;
+      background: var(--accent-gradient);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 10px;
+    }
+    
+    .auth-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 42, 92, 0.4);
+    }
+    
+    .comment-form {
+      margin: 25px 0;
+      padding: 25px;
+      background: rgba(30, 30, 30, 0.8);
+      border-radius: 14px;
+      display: none;
+    }
+    
+    .comment-form.visible {
+      display: block;
+    }
+    
+    .comment-input {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(20, 20, 24, 0.8);
+      color: white;
+      font-size: 16px;
+      resize: vertical;
+      min-height: 120px;
+      transition: var(--transition);
+    }
+    
+    .comment-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255, 42, 92, 0.2);
+    }
+    
+    .submit-comment-btn {
+      background: var(--accent-gradient);
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 15px;
+      float: right;
+    }
+    
+    .submit-comment-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 42, 92, 0.4);
+    }
+
+    .comment-item {
+      background: rgba(30, 30, 30, 0.6);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      border-left: 3px solid var(--accent);
+    }
+    
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      color: #aaa;
+      font-size: 14px;
+    }
+    
+    .comment-author {
+      font-weight: 600;
+      color: #ffcc00;
+    }
+    
+    .comment-text {
+      color: #ddd;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
     @media (max-width: 768px) {
       .sidebar { width: 70px; }
-      .logo img { height: 40px; }
+      .logo img { height: 45px; }
       .sidebar .btn span:not(.fas):not(.fab) { display: none; }
-      .main-content { margin-left: 70px; padding: 15px; }
+      .main-content { margin-left: 70px; padding: 20px; }
       .download-buttons { flex-direction: column; }
+      .game-detail { padding: 25px; }
+      .game-detail h1 { font-size: 26px; }
+    }
+    
+    @media (max-width: 480px) {
+      .sidebar { width: 60px; }
+      .main-content { margin-left: 60px; }
+      .sidebar .btn { padding: 18px 0; }
+      .logo img { height: 40px; }
+      .like-buttons { flex-direction: column; }
     }
   </style>
 </head>
@@ -178,7 +457,7 @@
   <main class="main-content">
     <div class="game-detail" id="gameDetail">
       <h1 id="gameName">Cargando...</h1>
-      <img id="gameImage" class="game-img" src="" alt="Portada del juego" />
+      <img id="gameImage" class="game-img" src="" alt="Portada del juego" onerror="this.src='https://i.ibb.co/S4L9STLS/may-bnner.png'" />
       <p id="gameSummary">Resumen del juego...</p>
       
       <div class="categories">
@@ -188,29 +467,48 @@
 
       <div class="game-stats" id="gameStats"></div>
 
+      <!-- Sistema de valoración por estrellas -->
+      <div class="rating-section">
+        <h3><i class="fas fa-star"></i> Valora este juego</h3>
+        <div class="current-rating">
+          <span class="current-rating-value" id="currentRatingValue">0.0</span>
+          <span class="current-rating-text" id="currentRatingText">Sin valoraciones</span>
+        </div>
+        <div class="star-rating" id="starRating">
+          <i class="far fa-star" data-value="1"></i>
+          <i class="far fa-star" data-value="2"></i>
+          <i class="far fa-star" data-value="3"></i>
+          <i class="far fa-star" data-value="4"></i>
+          <i class="far fa-star" data-value="5"></i>
+        </div>
+        <button class="submit-rating-btn" id="submitRatingBtn" disabled>
+          Enviar valoración
+        </button>
+      </div>
+
       <div class="like-buttons">
-        <button class="like-btn like" onclick="likeJuego()">
+        <button class="like-btn like" id="likeBtn">
           <i class="fas fa-thumbs-up"></i> Me gusta
         </button>
-        <button class="like-btn dislike" onclick="alert('Feedback recibido')">
+        <button class="like-btn dislike" id="dislikeBtn">
           <i class="fas fa-thumbs-down"></i> No me gusta
         </button>
       </div>
 
-      <div id="adminPanel" style="display:none; margin:20px 0; padding:15px; background:#2a2a2a; border-radius:10px;">
-        <p style="color:#ffcc00; margin-bottom:10px;">
+      <div id="adminPanel" style="display:none; margin:25px 0; padding:20px; background:rgba(42,42,42,0.8); border-radius:14px; border:1px solid rgba(255,255,255,0.1);">
+        <p style="color:#ffcc00; margin-bottom:15px; font-weight:600;">
           <i class="fas fa-user-shield"></i> Modo Administrador
         </p>
         <input type="password" id="adminCode" placeholder="Código de administrador" 
-               style="padding:8px; width:200px; margin-right:10px; border-radius:4px; border:1px solid #444;">
-        <button onclick="activarModoAdmin()" 
-                style="padding:8px 15px; background:#ff3366; color:white; border:none; border-radius:4px; cursor:pointer;">
+               class="auth-input" style="width:220px; margin-right:15px;">
+        <button id="adminBtn" 
+                style="padding:12px 20px; background:var(--accent-gradient); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">
           Activar
         </button>
       </div>
 
       <div class="download-buttons" id="downloadButtons"></div>
-      <div id="adminDownloadButtons" style="display:none; margin-top:20px;"></div>
+      <div id="adminDownloadButtons" style="display:none; margin-top:25px;"></div>
 
       <div class="comments-section">
         <h3>
@@ -218,31 +516,33 @@
           Comentarios (<span id="commentCount">0</span>)
         </h3>
         
-        <div style="margin: 20px 0; display: flex; flex-direction: column; gap: 10px;">
-          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <input type="text" id="commentName" placeholder="Tu nombre" 
-                   style="flex: 1; min-width: 150px; padding: 10px; border-radius: 6px; border: 1px solid #333; background: #222; color: white;">
-            <input type="email" id="commentEmail" placeholder="Tu correo (opcional)" 
-                   style="flex: 1; min-width: 150px; padding: 10px; border-radius: 6px; border: 1px solid #333; background: #222; color: white;">
+        <!-- Sistema de autenticación obligatorio -->
+        <div class="auth-section" id="authSection">
+          <h4><i class="fas fa-user-lock"></i> Registro obligatorio para comentar</h4>
+          <div class="auth-form">
+            <input type="email" id="authEmail" class="auth-input" placeholder="Tu correo electrónico (obligatorio)" required>
+            <input type="text" id="authName" class="auth-input" placeholder="Tu nombre (obligatorio)" required>
+            <button class="auth-btn" id="authBtn">Registrarme / Iniciar sesión</button>
           </div>
-          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <input type="text" id="commentInput" placeholder="Escribe tu comentario..." 
-                   style="flex: 1; min-width: 200px; padding: 10px; border-radius: 6px; border: 1px solid #333; background: #222; color: white;">
-            <button onclick="publicarComentario()" 
-                    style="padding: 10px 20px; background: var(--accent); color: white; border: none; border-radius: 6px; cursor: pointer;">
-              Publicar
-            </button>
-          </div>
+          <p style="margin-top:15px; color:#888; font-size:14px; text-align:center;">
+            <i class="fas fa-info-circle"></i> Tu correo no será compartido. Es necesario para verificar tu identidad.
+          </p>
+        </div>
+        
+        <!-- Formulario de comentarios (solo visible después de autenticar) -->
+        <div class="comment-form" id="commentForm">
+          <textarea id="commentInput" class="comment-input" placeholder="Escribe tu comentario aquí..."></textarea>
+          <button class="submit-comment-btn" id="commentBtn">Publicar comentario</button>
         </div>
 
-        <div id="commentList" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+        <div id="commentList" style="display: flex; flex-direction: column; gap: 20px; margin-top: 30px;">
         </div>
       </div>
     </div>
   </main>
 
   <script type="module">
-    // ✅ Firebase - Importaciones CORRECTAS (incluyendo getDoc)
+    // Firebase SDK
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import {
       getFirestore,
@@ -254,7 +554,8 @@
       where,
       getDocs,
       getDoc,
-      increment
+      increment,
+      serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -271,6 +572,8 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     const gameId = urlParams.get('id');
+    let currentUser = null;
+    let selectedRating = 0;
 
     if (!gameId) {
       document.getElementById('gameDetail').innerHTML = '<h2 style="text-align:center; color:#f44336;">ID de juego no válido</h2>';
@@ -278,84 +581,266 @@
 
     const ADMIN_CODE = "synekeos";
 
-    window.activarModoAdmin = function() {
-      const input = document.getElementById('adminCode');
-      if (input.value === ADMIN_CODE) {
-        document.getElementById('adminPanel').style.display = 'none';
-        document.getElementById('adminDownloadButtons').style.display = 'block';
-        
-        fetch('/juegos.json')
-          .then(res => res.json())
-          .then(juegos => {
-            const game = juegos.find(j => String(j.id) === String(gameId));
-            if (game) {
-              const btns = document.getElementById('adminDownloadButtons');
-              btns.innerHTML = `
-                <h3 style="color:#ffcc00; margin-bottom:15px;">🔗 Enlaces de Administrador</h3>
-                <div style="display:flex; flex-wrap:wrap; gap:10px;">
-                  <a href="${game.links.directos.pc}" target="_blank" 
-                     style="flex:1; min-width:200px; padding:10px; text-align:center; border-radius:6px; 
-                            background:linear-gradient(135deg, #4d79ff, #3a68e0); color:white; text-decoration:none;">
-                    🖥️ PC (DIRECTO)
-                  </a>
-                  <a href="${game.links.acortados.pc}" target="_blank" 
-                     style="flex:1; min-width:200px; padding:10px; text-align:center; border-radius:6px; 
-                            background:linear-gradient(135deg, #ff9800, #e67e00); color:white; text-decoration:none;">
-                    🖥️ PC (ACORTADO)
-                  </a>
-                  <a href="${game.links.directos.android}" target="_blank" 
-                     style="flex:1; min-width:200px; padding:10px; text-align:center; border-radius:6px; 
-                            background:linear-gradient(135deg, #4caf50, #3d8b40); color:white; text-decoration:none;">
-                    📱 Android (DIRECTO)
-                  </a>
-                  <a href="${game.links.acortados.android}" target="_blank" 
-                     style="flex:1; min-width:200px; padding:10px; text-align:center; border-radius:6px; 
-                            background:linear-gradient(135deg, #9c27b0, #6a1b9a); color:white; text-decoration:none;">
-                    📱 Android (ACORTADO)
-                  </a>
-                </div>
-              `;
-            }
-          });
-      } else {
-        alert("❌ Código incorrecto");
-      }
-    };
+    // Validación de email
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
 
-    // ✅ FUNCIÓN CORREGIDA: ahora actualiza el contador de comentarios
-    window.publicarComentario = async () => {
-      const nombre = document.getElementById('commentName').value.trim();
-      const texto = document.getElementById('commentInput').value.trim();
-      if (!nombre || !texto) {
-        alert("Por favor ingresa tu nombre y un comentario.");
+    // Sistema de autenticación
+    function authenticateUser() {
+      const email = document.getElementById('authEmail').value.trim();
+      const name = document.getElementById('authName').value.trim();
+      
+      if (!email || !name) {
+        alert("Por favor ingresa tu correo electrónico y nombre.");
+        return false;
+      }
+      
+      if (!isValidEmail(email)) {
+        alert("Por favor ingresa un correo electrónico válido.");
+        return false;
+      }
+      
+      // Guardar en localStorage (simulación de autenticación)
+      currentUser = { email, name };
+      localStorage.setItem('gameshot_user', JSON.stringify(currentUser));
+      
+      // Mostrar formulario de comentarios
+      document.getElementById('authSection').style.display = 'none';
+      document.getElementById('commentForm').classList.add('visible');
+      
+      return true;
+    }
+
+    // Cargar usuario desde localStorage
+    function loadUser() {
+      const savedUser = localStorage.getItem('gameshot_user');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        document.getElementById('authSection').style.display = 'none';
+        document.getElementById('commentForm').classList.add('visible');
+      }
+    }
+
+    // Funciones mejoradas con manejo de errores
+    async function cargarJuego() {
+      try {
+        const res = await fetch('/juegos.json');
+        if (!res.ok) throw new Error('No se pudo cargar la base de datos');
+        const juegos = await res.json();
+        const game = juegos.find(j => String(j.id) === String(gameId));
+        
+        if (!game) throw new Error('Juego no encontrado');
+        
+        document.getElementById('gameName').textContent = game.nombre;
+        document.title = game.nombre + " - Games Hot";
+        document.getElementById('gameImage').src = game.portada || game.miniatura || 'https://i.ibb.co/S4L9STLS/may-bnner.png';
+        document.getElementById('gameSummary').textContent = game.resumen;
+        
+        const cats = document.getElementById('gameCategories');
+        cats.innerHTML = (game.categorias || []).map(cat => 
+          `<span class="category-tag">${cat}</span>`
+        ).join('');
+        
+        document.getElementById('adminPanel').style.display = 'block';
+        
+        const isVIP = localStorage.getItem('gameshot_vip_activated') === 'true';
+        const links = isVIP ? game.links.directos : game.links.acortados;
+        
+        document.getElementById('downloadButtons').innerHTML = `
+          <a href="${links.pc}" target="_blank" class="btn-download btn-pc">
+            🖥️ Descargar para PC ${isVIP ? '(DIRECTO)' : '(con acortador)'}
+          </a>
+          <a href="${links.android}" target="_blank" class="btn-download btn-android">
+            📱 Descargar para Android ${isVIP ? '(DIRECTO)' : '(con acortador)'}
+          </a>
+          ${!isVIP ? `<p style="margin-top:20px; color:#ffcc00; text-align:center; width:100%; font-weight:600;">
+            ¿Quieres enlaces directos? <a href="vip.html" style="color:#ff3366; text-decoration:underline;">Hazte VIP</a>
+          </p>` : ''}
+        `;
+        
+        await cargarStats();
+        await cargarComentarios();
+        await incrementarVistas();
+        loadUser(); // Cargar usuario si ya está autenticado
+        
+      } catch (e) {
+        console.error("Error al cargar juego:", e);
+        document.getElementById('gameDetail').innerHTML = `<h2 style="text-align:center; color:#f44336;">${e.message}</h2>`;
+      }
+    }
+
+    async function cargarStats() {
+      try {
+        const docRef = doc(db, "juegos", gameId);
+        const docSnap = await getDoc(docRef);
+        let stats = { vistas: 0, likes: 0, comentarios: 0, rating: 0, totalVotes: 0 };
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          // Asegurar valores numéricos
+          stats = {
+            vistas: parseInt(data.vistas) || 0,
+            likes: parseInt(data.likes) || 0,
+            comentarios: parseInt(data.comentarios) || 0,
+            rating: parseFloat(data.rating) || 0,
+            totalVotes: parseInt(data.totalVotes) || 0
+          };
+        } else {
+          await setDoc(docRef, stats);
+        }
+
+        // Actualizar estadísticas
+        document.getElementById('gameStats').innerHTML = `
+          <div class="stat-item">
+            <div class="stat-value">${stats.vistas}</div>
+            <div>Vistas</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">${stats.likes}</div>
+            <div>Me gusta</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">${stats.comentarios}</div>
+            <div>Comentarios</div>
+          </div>
+        `;
+        
+        // Actualizar sistema de valoración
+        updateRatingDisplay(stats.rating, stats.totalVotes);
+        
+      } catch (error) {
+        console.error("Error al cargar stats:", error);
+        // Mostrar stats por defecto si Firebase falla
+        document.getElementById('gameStats').innerHTML = `
+          <div class="stat-item">
+            <div class="stat-value">0</div>
+            <div>Vistas</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">0</div>
+            <div>Me gusta</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">0</div>
+            <div>Comentarios</div>
+          </div>
+        `;
+        updateRatingDisplay(0, 0);
+      }
+    }
+
+    function updateRatingDisplay(rating, totalVotes) {
+      const ratingValue = document.getElementById('currentRatingValue');
+      const ratingText = document.getElementById('currentRatingText');
+      const stars = document.querySelectorAll('#starRating i');
+      
+      // Asegurar valores numéricos
+      rating = parseFloat(rating) || 0;
+      totalVotes = parseInt(totalVotes) || 0;
+      
+      if (totalVotes === 0) {
+        ratingValue.textContent = '0.0';
+        ratingText.textContent = 'Sin valoraciones';
+        stars.forEach(star => {
+          star.className = 'far fa-star';
+        });
+      } else {
+        ratingValue.textContent = rating.toFixed(1);
+        ratingText.textContent = `(${totalVotes} voto${totalVotes !== 1 ? 's' : ''})`;
+        
+        // Actualizar estrellas visuales
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = (rating - fullStars) >= 0.5;
+        
+        stars.forEach((star, index) => {
+          if (index < fullStars) {
+            star.className = 'fas fa-star';
+          } else if (index === fullStars && hasHalfStar) {
+            star.className = 'fas fa-star-half-alt';
+          } else {
+            star.className = 'far fa-star';
+          }
+        });
+      }
+    }
+
+    async function incrementarVistas() {
+      try {
+        const docRef = doc(db, "juegos", gameId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          await updateDoc(docRef, { vistas: increment(1) });
+        } else {
+          await setDoc(docRef, { vistas: 1, likes: 0, comentarios: 0, rating: 0, totalVotes: 0 });
+        }
+      } catch (error) {
+        console.error("Error al incrementar vistas:", error);
+      }
+    }
+
+    async function likeJuego() {
+      try {
+        const docRef = doc(db, "juegos", gameId);
+        await updateDoc(docRef, { likes: increment(1) });
+        alert("¡Gracias por tu like!");
+        await cargarStats();
+      } catch (error) {
+        console.error("Error al dar like:", error);
+        alert("No se pudo registrar tu like.");
+      }
+    }
+
+    async function dislikeJuego() {
+      alert("Feedback recibido");
+    }
+
+    // ✅ FUNCIÓN CORREGIDA - Sistema de votación sin errores NaN
+    async function submitRating() {
+      if (selectedRating === 0) {
+        alert("Por favor selecciona una calificación.");
         return;
       }
-
+      
       try {
-        // 1. Guardar el comentario en la colección "comentarios"
-        const commentRef = doc(collection(db, "comentarios"));
-        await setDoc(commentRef, {
-          gameId: gameId,
-          texto: texto,
-          fecha: new Date().toISOString(),
-          autor: nombre
+        const docRef = doc(db, "juegos", gameId);
+        const docSnap = await getDoc(docRef);
+        
+        // Valores por defecto seguros
+        let currentRating = 0;
+        let currentTotalVotes = 0;
+        
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          // Asegurar que sean números
+          currentRating = parseFloat(data.rating) || 0;
+          currentTotalVotes = parseInt(data.totalVotes) || 0;
+        }
+        
+        const newTotalVotes = currentTotalVotes + 1;
+        const newRating = ((currentRating * currentTotalVotes) + selectedRating) / newTotalVotes;
+        
+        // Guardar como números (no strings)
+        await updateDoc(docRef, { 
+          rating: newRating, 
+          totalVotes: newTotalVotes 
         });
-
-        // 2. ✅ INCREMENTAR el contador de comentarios en el documento del juego
-        const gameDocRef = doc(db, "juegos", gameId);
-        await updateDoc(gameDocRef, { 
-          comentarios: increment(1) 
+        
+        alert("¡Gracias por tu valoración!");
+        await cargarStats();
+        selectedRating = 0;
+        document.getElementById('submitRatingBtn').disabled = true;
+        
+        // Reset estrellas
+        document.querySelectorAll('#starRating i').forEach(star => {
+          star.className = 'far fa-star';
         });
-
-        // 3. Limpiar formulario y recargar lista
-        document.getElementById('commentName').value = "";
-        document.getElementById('commentInput').value = "";
-        cargarComentarios();
+        
       } catch (error) {
-        console.error("Error al publicar:", error);
-        alert("No se pudo publicar el comentario.");
+        console.error("Error al enviar valoración:", error);
+        alert("No se pudo registrar tu valoración.");
       }
-    };
+    }
 
     async function cargarComentarios() {
       try {
@@ -372,7 +857,7 @@
         
         const list = document.getElementById('commentList');
         if (comments.length === 0) {
-          list.innerHTML = '<p style="color:#777;">Sé el primero en comentar.</p>';
+          list.innerHTML = '<p style="color:#777; text-align:center; padding:20px; background:rgba(30,30,30,0.3); border-radius:10px;">Sé el primero en comentar.</p>';
           return;
         }
 
@@ -384,109 +869,158 @@
             minute: '2-digit'
           });
           return `
-            <div style="background: #1e1e1e; padding: 15px; border-radius: 10px;">
-              <div style="display: flex; justify-content: space-between; margin-bottom: 8px; color: #aaa; font-size: 0.9em;">
-                <span>${c.autor}</span>
+            <div class="comment-item">
+              <div class="comment-header">
+                <span class="comment-author">${c.autor}</span>
                 <span>${fecha}</span>
               </div>
-              <div style="color: #ddd; line-height: 1.5;">${c.texto}</div>
+              <div class="comment-text">${c.texto}</div>
             </div>
           `;
         }).join('');
       } catch (error) {
         console.error("Error al cargar comentarios:", error);
+        document.getElementById('commentList').innerHTML = '<p style="color:#f44336; text-align:center; padding:20px; background:rgba(239,68,68,0.2); border-radius:10px;">Error al cargar comentarios.</p>';
       }
     }
 
-    async function cargarStats() {
-      const docRef = doc(db, "juegos", gameId);
-      const docSnap = await getDoc(docRef);
-      let stats = { vistas: 0, likes: 0, comentarios: 0 };
-
-      if (docSnap.exists()) {
-        stats = docSnap.data();
-      } else {
-        await setDoc(docRef, stats);
+    async function publicarComentario() {
+      if (!currentUser) {
+        alert("Debes estar registrado para comentar.");
+        return;
+      }
+      
+      const texto = document.getElementById('commentInput').value.trim();
+      if (!texto) {
+        alert("Por favor escribe un comentario.");
+        return;
       }
 
-      document.getElementById('gameStats').innerHTML = `
-        <div class="stat-item">
-          <div class="stat-value">${stats.vistas}</div>
-          <div>Vistas</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value">${stats.likes}</div>
-          <div>Me gusta</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value">${stats.comentarios}</div>
-          <div>Comentarios</div>
-        </div>
-      `;
-    }
-
-    async function incrementarVistas() {
-      const docRef = doc(db, "juegos", gameId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        await updateDoc(docRef, { vistas: increment(1) });
-      } else {
-        await setDoc(docRef, { vistas: 1, likes: 0, comentarios: 0 });
-      }
-    }
-
-    window.likeJuego = async () => {
-      const docRef = doc(db, "juegos", gameId);
-      await updateDoc(docRef, { likes: increment(1) });
-      alert("¡Gracias por tu like!");
-      cargarStats();
-    };
-
-    async function cargarJuego() {
       try {
-        const res = await fetch('/juegos.json');
-        const juegos = await res.json();
-        const game = juegos.find(j => String(j.id) === String(gameId));
-        
-        if (!game) throw new Error('Juego no encontrado');
-        
-        document.getElementById('gameName').textContent = game.nombre;
-        document.title = game.nombre + " - Games Hot";
-        document.getElementById('gameImage').src = game.portada;
-        document.getElementById('gameSummary').textContent = game.resumen;
-        
-        const cats = document.getElementById('gameCategories');
-        cats.innerHTML = game.categorias.map(cat => 
-          `<span class="category-tag">${cat}</span>`
-        ).join('');
-        
-        document.getElementById('adminPanel').style.display = 'block';
-        
-        const isVIP = localStorage.getItem('gameshot_vip_activated') === 'true';
-        const links = isVIP ? game.links.directos : game.links.acortados;
-        
-        document.getElementById('downloadButtons').innerHTML = `
-          <a href="${links.pc}" target="_blank" class="btn-download btn-pc">
-            🖥️ Descargar para PC ${isVIP ? '(DIRECTO)' : '(con acortador)'}
-          </a>
-          <a href="${links.android}" target="_blank" class="btn-download btn-android">
-            📱 Descargar para Android ${isVIP ? '(DIRECTO)' : '(con acortador)'}
-          </a>
-          ${!isVIP ? `<p style="margin-top:15px; color:#ffcc00; text-align:center; width:100%;">
-            ¿Quieres enlaces directos? <a href="vip.html" style="color:#ff3366;">Hazte VIP</a>
-          </p>` : ''}
-        `;
-        
-        cargarComentarios();
-      } catch (e) {
-        document.getElementById('gameDetail').innerHTML = `<h2 style="text-align:center; color:#f44336;">${e.message}</h2>`;
+        const commentRef = doc(collection(db, "comentarios"));
+        await setDoc(commentRef, {
+          gameId: gameId,
+          texto: texto,
+          fecha: serverTimestamp(),
+          autor: currentUser.name,
+          email: currentUser.email
+        });
+
+        await updateDoc(doc(db, "juegos", gameId), { 
+          comentarios: increment(1) 
+        });
+
+        await cargarComentarios();
+        document.getElementById('commentInput').value = "";
+        alert("¡Comentario publicado exitosamente!");
+      } catch (error) {
+        console.error("Error al publicar:", error);
+        alert("No se pudo publicar el comentario.");
       }
     }
 
-    // Iniciar
-    cargarJuego();
-    cargarStats();
-    incrementarVistas();
+    function activarModoAdmin() {
+      const input = document.getElementById('adminCode');
+      if (input.value === ADMIN_CODE) {
+        document.getElementById('adminPanel').style.display = 'none';
+        document.getElementById('adminDownloadButtons').style.display = 'block';
+        
+        fetch('/juegos.json')
+          .then(res => res.json())
+          .then(juegos => {
+            const game = juegos.find(j => String(j.id) === String(gameId));
+            if (game) {
+              const btns = document.getElementById('adminDownloadButtons');
+              btns.innerHTML = `
+                <h3 style="color:#ffcc00; margin-bottom:20px; font-weight:700;">🔗 Enlaces de Administrador</h3>
+                <div style="display:flex; flex-wrap:wrap; gap:15px;">
+                  <a href="${game.links.directos.pc}" target="_blank" 
+                     style="flex:1; min-width:220px; padding:14px; text-align:center; border-radius:12px; 
+                            background:linear-gradient(135deg, #4d79ff, #3a68e0); color:white; text-decoration:none; font-weight:700;">
+                    🖥️ PC (DIRECTO)
+                  </a>
+                  <a href="${game.links.acortados.pc}" target="_blank" 
+                     style="flex:1; min-width:220px; padding:14px; text-align:center; border-radius:12px; 
+                            background:linear-gradient(135deg, #ff9800, #e67e00); color:white; text-decoration:none; font-weight:700;">
+                    🖥️ PC (ACORTADO)
+                  </a>
+                  <a href="${game.links.directos.android}" target="_blank" 
+                     style="flex:1; min-width:220px; padding:14px; text-align:center; border-radius:12px; 
+                            background:linear-gradient(135deg, #4caf50, #3d8b40); color:white; text-decoration:none; font-weight:700;">
+                    📱 Android (DIRECTO)
+                  </a>
+                  <a href="${game.links.acortados.android}" target="_blank" 
+                     style="flex:1; min-width:220px; padding:14px; text-align:center; border-radius:12px; 
+                            background:linear-gradient(135deg, #9c27b0, #6a1b9a); color:white; text-decoration:none; font-weight:700;">
+                    📱 Android (ACORTADO)
+                  </a>
+                </div>
+              `;
+            }
+          });
+      } else {
+        alert("❌ Código incorrecto");
+      }
+    }
+
+    // Manejo de estrellas de valoración
+    function setupStarRating() {
+      const stars = document.querySelectorAll('#starRating i');
+      
+      stars.forEach(star => {
+        star.addEventListener('click', () => {
+          selectedRating = parseInt(star.dataset.value);
+          document.getElementById('submitRatingBtn').disabled = false;
+          
+          // Actualizar visualización
+          stars.forEach((s, index) => {
+            if (index < selectedRating) {
+              s.className = 'fas fa-star active';
+            } else {
+              s.className = 'far fa-star';
+            }
+          });
+        });
+        
+        star.addEventListener('mouseover', () => {
+          const value = parseInt(star.dataset.value);
+          stars.forEach((s, index) => {
+            if (index < value) {
+              s.className = 'fas fa-star';
+            } else {
+              s.className = 'far fa-star';
+            }
+          });
+        });
+        
+        star.addEventListener('mouseout', () => {
+          if (selectedRating === 0) {
+            stars.forEach(s => s.className = 'far fa-star');
+          } else {
+            stars.forEach((s, index) => {
+              if (index < selectedRating) {
+                s.className = 'fas fa-star active';
+              } else {
+                s.className = 'far fa-star';
+              }
+            });
+          }
+        });
+      });
+    }
+
+    // Inicializar eventos
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarJuego();
+      setupStarRating();
+      
+      document.getElementById('likeBtn')?.addEventListener('click', likeJuego);
+      document.getElementById('dislikeBtn')?.addEventListener('click', dislikeJuego);
+      document.getElementById('commentBtn')?.addEventListener('click', publicarComentario);
+      document.getElementById('adminBtn')?.addEventListener('click', activarModoAdmin);
+      document.getElementById('authBtn')?.addEventListener('click', authenticateUser);
+      document.getElementById('submitRatingBtn')?.addEventListener('click', submitRating);
+    });
   </script>
 </body>
 </html>
